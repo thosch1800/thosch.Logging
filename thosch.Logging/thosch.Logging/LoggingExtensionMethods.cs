@@ -3,8 +3,19 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.Extensions.Logging
 {
+    /// <summary>
+    /// Extends the microsoft logger.
+    /// </summary>
     public static class LoggingExtensionMethods
     {
+        /// <summary>
+        /// Logs the method name, arguments, file and line number after '&gt;&gt;&gt;' as debug category.
+        /// </summary>
+        /// <param name="logger">filled automatically (extension method)</param>
+        /// <param name="args">Add parameters to this object to log them.</param>
+        /// <param name="callerName">filled automatically</param>
+        /// <param name="callerFile">filled automatically</param>
+        /// <param name="callerFileLine">filled automatically</param>
         public static void LogEnter(
             this ILogger logger,
             Action<Arguments> args = null,
@@ -13,6 +24,14 @@ namespace Microsoft.Extensions.Logging
             [CallerLineNumber] int callerFileLine = 0)
             => logger.DoLog(callerName, callerFile, callerFileLine, prefix: ">>> ", arguments: Arguments.Create(args));
 
+        /// <summary>
+        /// Logs the method name, arguments, file and line number after '&lt;&lt;&lt;' as debug category.
+        /// </summary>
+        /// <param name="logger">filled automatically (extension method)</param>
+        /// <param name="args">Add parameters to this object to log them.</param>
+        /// <param name="callerName">filled automatically</param>
+        /// <param name="callerFile">filled automatically</param>
+        /// <param name="callerFileLine">filled automatically</param>
         public static void LogExit(
             this ILogger logger,
             Action<Arguments> args = null,
@@ -21,6 +40,15 @@ namespace Microsoft.Extensions.Logging
             [CallerLineNumber] int callerFileLine = 0)
             => logger.DoLog(callerName, callerFile, callerFileLine, prefix: "<<< ", arguments: Arguments.Create(args));
 
+        /// <summary>
+        /// Logs the message, method name, arguments, file and line number after '###' as debug category.
+        /// </summary>
+        /// <param name="logger">filled automatically (extension method)</param>
+        /// <param name="message">The message that should be logged</param>
+        /// <param name="args">Add parameters to this object to log them.</param>
+        /// <param name="callerName">filled automatically</param>
+        /// <param name="callerFile">filled automatically</param>
+        /// <param name="callerFileLine">filled automatically</param>
         public static void LogMessage(
             this ILogger logger,
             string message,
@@ -30,6 +58,16 @@ namespace Microsoft.Extensions.Logging
             [CallerLineNumber] int callerFileLine = 0)
             => logger.DoLog(callerName, callerFile, callerFileLine, prefix: "### ", arguments: Arguments.Create(args), message: message);
 
+        /// <summary>
+        /// Logs the exception, method name, arguments, file and line number after '&gt;&gt;&gt;' with the specified log level.
+        /// </summary>
+        /// <param name="logger">filled automatically (extension method)</param>
+        /// <param name="exception">The exception that should be logged</param>
+        /// <param name="logLevel">The log level used for this entry (Default: Error).</param>
+        /// <param name="args">Add parameters to this object to log them.</param>
+        /// <param name="callerName">filled automatically</param>
+        /// <param name="callerFile">filled automatically</param>
+        /// <param name="callerFileLine">filled automatically</param>
         public static void LogException(
             this ILogger logger,
             Exception exception,

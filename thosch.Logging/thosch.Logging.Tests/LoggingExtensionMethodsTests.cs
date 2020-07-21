@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.Logging.Tests
 {
-    public class LoggingExtensionMethodsTests : LoggingSupport<LoggingExtensionMethodsTests>
+    public class LoggingExtensionMethodsTests : LoggingSupport
     {
         public LoggingExtensionMethodsTests(ITestOutputHelper testOutputHelper) : base(testOutputHelper) { }
 

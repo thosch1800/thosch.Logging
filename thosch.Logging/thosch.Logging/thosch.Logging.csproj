@@ -4,9 +4,21 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>thosch.Logging</PackageId>
+    <Version>1.0.0</Version>
+    <Company>thosch</Company>
+    <Authors>Tom S.</Authors>
+    <PackageDescription>Logging extensions for Microsoft logger</PackageDescription>
+    <RepositoryUrl>https://github.com/thosch1800/thosch.Logging</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>$(TargetDir)/thosch.Logging.xml</DocumentationFile>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.6" />
   </ItemGroup>
-
 
 </Project>
