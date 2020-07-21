@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>$(TargetDir)/thosch.Logging.xml</DocumentationFile>
+    <DocumentationFile>$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   
   <ItemGroup>
