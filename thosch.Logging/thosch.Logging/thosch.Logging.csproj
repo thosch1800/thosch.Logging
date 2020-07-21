@@ -5,10 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>thosch.Logging</PackageId>
-    <Version>1.0.0</Version>
-    <Company>thosch</Company>
-    <Authors>Tom S.</Authors>
+    <Version>1.0.1</Version>
+    <Authors>thosch1800</Authors>
     <PackageDescription>Logging extensions for Microsoft logger</PackageDescription>
     <RepositoryUrl>https://github.com/thosch1800/thosch.Logging</RepositoryUrl>
   </PropertyGroup>
