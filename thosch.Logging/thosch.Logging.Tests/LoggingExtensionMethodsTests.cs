@@ -96,5 +96,36 @@ namespace Microsoft.Logging.Tests
                 .And.Contain("arg2:{ Name = foo }")
                 .And.Contain("arg3:42-08-15-47-11-42");
         }
+        
+        [Fact(DisplayName = nameof(LogScope))]
+        public void LogScope()
+        {
+            var arg1 = 42.42;
+            var arg2 = new { Name = "foo" };
+            var arg3 = new byte[] { 0x42, 0x08, 0x15, 0x47, 0x11, 0x42 };
+
+            {
+                using var _ = Logger.LogScope(args => args
+                    .Add(nameof(arg1), arg1)
+                    .Add(nameof(arg2), arg2)
+                    .Add(nameof(arg3), arg3));
+            }
+
+            var firstLog = Logs.FirstOrDefault();
+            var lastLog = Logs.LastOrDefault();
+            
+            firstLog
+                .Should().NotBeNull()
+                .And.Contain(">>>")
+                .And.Contain("arg1:42.42")
+                .And.Contain("arg2:{ Name = foo }")
+                .And.Contain("arg3:42-08-15-47-11-42");
+            lastLog
+                .Should().NotBeNull()
+                .And.Contain("<<<")
+                .And.Contain("arg1:42.42")
+                .And.Contain("arg2:{ Name = foo }")
+                .And.Contain("arg3:42-08-15-47-11-42");
+        }
     }
 }
