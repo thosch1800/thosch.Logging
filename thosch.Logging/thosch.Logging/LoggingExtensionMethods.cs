@@ -117,9 +117,9 @@ namespace Microsoft.Extensions.Logging
       LogLevel logLevel = LogLevel.Debug)
     {
       if (callerFileLine > 0)
-        logger.Log(logLevel, $"{prefix}{callerName}({arguments.Expand()}){message}[{callerFile}#{callerFileLine.ToString()}]");
+        logger.Log(logLevel, $"{prefix}{callerName}({arguments.Expand()}) {message} [{callerFile}#{callerFileLine.ToString()}]");
       else
-        logger.Log(logLevel, $"{prefix}{callerName}({arguments.Expand()}){message}[{callerFile}]");
+        logger.Log(logLevel, $"{prefix}{callerName}({arguments.Expand()}) {message} [{callerFile}]");
     }
   }
 }
