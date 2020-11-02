@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace thosch.Logging.Tests.TestableLogging
+namespace thosch.Logging.Tests.Infrastructure
 {
     /// <summary>
     /// LoggingSupport enables logging for xUnit. Derive xunit test fixtures from this class to add logged output to test output.
@@ -17,9 +17,9 @@ namespace thosch.Logging.Tests.TestableLogging
     /// }
     /// </code>
     /// </summary>
-    public class LoggingSupport : IDisposable
+    public class LoggingSupport<T> : IDisposable
     {
-        public LoggingSupport(ITestOutputHelper testOutputHelper)
+        protected LoggingSupport(ITestOutputHelper testOutputHelper)
         {
             LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(config =>
             {
@@ -30,26 +30,28 @@ namespace thosch.Logging.Tests.TestableLogging
                 config.SetMinimumLevel(LogLevel.Debug);
             });
 
-            Logger = LoggerFactory.CreateLogger<LoggingSupport>();
+            Logger = LoggerFactory.CreateLogger<LoggingSupport<T>>();
         }
         public void Dispose() => LoggerFactory.Dispose();
 
         /// <summary>
         /// LoggerFactory for use during tests.
         /// </summary>
-        public ILoggerFactory LoggerFactory { get; }
+        // ReSharper disable once MemberCanBePrivate.Global
+        protected ILoggerFactory LoggerFactory { get; }
 
         /// <summary>
         /// Logger for use during tests.
         /// </summary>
-        public ILogger Logger { get; }
+        protected ILogger Logger { get; }
 
         /// <summary>
         /// Contains all log entries. Can be used to assert on log entries.
         /// </summary>
-        public List<string> Logs => testableLogger.Logs;
+        // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+        protected List<string> Messages => testableLogger.Messages;
 
-        private readonly TestableLogger testableLogger = new TestableLogger();
+        private readonly TestableLogger<T> testableLogger = new TestableLogger<T>();
     }
 }
 

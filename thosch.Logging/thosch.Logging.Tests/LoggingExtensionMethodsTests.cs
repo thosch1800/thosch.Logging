@@ -2,13 +2,13 @@ using System;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using thosch.Logging.Tests.TestableLogging;
+using thosch.Logging.Tests.Infrastructure;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace thosch.Logging.Tests
 {
-  public class LoggingExtensionMethodsTests : LoggingSupport
+  public class LoggingExtensionMethodsTests : LoggingSupport<LoggingExtensionMethodsTests>
   {
     public LoggingExtensionMethodsTests(ITestOutputHelper testOutputHelper)
       : base(testOutputHelper) { }
@@ -25,7 +25,7 @@ namespace thosch.Logging.Tests
         .Add(nameof(arg2), arg2)
         .Add(nameof(arg3), arg3));
 
-      Logs.FirstOrDefault()
+      Messages.FirstOrDefault()
         .Should().NotBeNull()
         .And.Contain(">>>")
         .And.Contain("arg1:42.42")
@@ -45,7 +45,7 @@ namespace thosch.Logging.Tests
         .Add(nameof(arg2), arg2)
         .Add(nameof(arg3), arg3));
 
-      Logs.FirstOrDefault()
+      Messages.FirstOrDefault()
         .Should().NotBeNull()
         .And.Contain("<<<")
         .And.Contain("arg1:42.42")
@@ -66,7 +66,7 @@ namespace thosch.Logging.Tests
           .Add(nameof(arg2), arg2)
           .Add(nameof(arg3), arg3));
 
-      Logs.FirstOrDefault()
+      Messages.FirstOrDefault()
         .Should().NotBeNull()
         .And.Contain("this is the message")
         .And.Contain("arg1:42.42")
@@ -87,7 +87,7 @@ namespace thosch.Logging.Tests
           .Add(nameof(arg2), arg2)
           .Add(nameof(arg3), arg3));
 
-      Logs.FirstOrDefault()
+      Messages.FirstOrDefault()
         .Should().NotBeNull()
         .And.Contain("outerEx")
         .And.Contain("ApplicationException")
@@ -112,8 +112,8 @@ namespace thosch.Logging.Tests
           .Add(nameof(arg3), arg3));
       }
 
-      var firstLog = Logs.FirstOrDefault();
-      var lastLog = Logs.LastOrDefault();
+      var firstLog = Messages.FirstOrDefault();
+      var lastLog = Messages.LastOrDefault();
 
       firstLog
         .Should().NotBeNull()
