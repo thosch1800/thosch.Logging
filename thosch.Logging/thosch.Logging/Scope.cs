@@ -1,9 +1,10 @@
 ﻿using System;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.Logging
 {
   /// <summary>
-  /// Tracks a logging scope and triggers a LogExit on dispose. 
+  ///   Tracks a logging scope and triggers a LogExit on dispose.
   /// </summary>
   public class Scope : IDisposable
   {
@@ -14,7 +15,7 @@ namespace Microsoft.Extensions.Logging
     }
 
     /// <summary>
-    /// Dispose
+    ///   Dispose
     /// </summary>
     public void Dispose() => onExit();
 

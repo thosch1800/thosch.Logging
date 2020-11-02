@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Logging.Tests
+namespace thosch.Logging.Tests.TestableLogging
 {
     public static class ILoggingBuilderExtensionMethods
     {

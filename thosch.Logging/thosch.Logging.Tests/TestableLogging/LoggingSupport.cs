@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace Microsoft.Logging.Tests
+namespace thosch.Logging.Tests.TestableLogging
 {
     /// <summary>
     /// LoggingSupport enables logging for xUnit. Derive xunit test fixtures from this class to add logged output to test output.
@@ -21,7 +21,7 @@ namespace Microsoft.Logging.Tests
     {
         public LoggingSupport(ITestOutputHelper testOutputHelper)
         {
-            LoggerFactory = Extensions.Logging.LoggerFactory.Create(config =>
+            LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(config =>
             {
                 config.AddXunit(testOutputHelper);
                 config.AddTestableLogger(testableLogger);

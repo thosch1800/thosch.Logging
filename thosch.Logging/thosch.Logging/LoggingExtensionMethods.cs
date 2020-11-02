@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.Logging
 {
   /// <summary>
@@ -24,7 +25,7 @@ namespace Microsoft.Extensions.Logging
       [CallerMemberName] string callerName = "",
       [CallerFilePath] string callerFile = "",
       [CallerLineNumber] int callerFileLine = 0)
-      => logger.DoLog(callerName, callerFile, callerFileLine, prefix: ">>> ", arguments: Arguments.Create(args));
+      => logger.DoLog(callerName, callerFile, callerFileLine, prefix: ">>> ", arguments: Arguments.Create(args), logLevel: logLevel);
 
     /// <summary>
     ///   Logs the method name, arguments, file and line number after '&lt;&lt;&lt;' as debug category.
@@ -42,7 +43,7 @@ namespace Microsoft.Extensions.Logging
       [CallerMemberName] string callerName = "",
       [CallerFilePath] string callerFile = "",
       [CallerLineNumber] int callerFileLine = 0)
-      => logger.DoLog(callerName, callerFile, callerFileLine, prefix: "<<< ", arguments: Arguments.Create(args));
+      => logger.DoLog(callerName, callerFile, callerFileLine, prefix: "<<< ", arguments: Arguments.Create(args), logLevel: logLevel);
 
     /// <summary>
     ///   Logs the message, method name, arguments, file and line number as debug category.
@@ -62,7 +63,7 @@ namespace Microsoft.Extensions.Logging
       [CallerMemberName] string callerName = "",
       [CallerFilePath] string callerFile = "",
       [CallerLineNumber] int callerFileLine = 0)
-      => logger.DoLog(callerName, callerFile, callerFileLine, arguments: Arguments.Create(args), message: message);
+      => logger.DoLog(callerName, callerFile, callerFileLine, Arguments.Create(args), message: message, logLevel: logLevel);
 
     /// <summary>
     ///   Logs the exception, method name, arguments, file and line number after '&gt;&gt;&gt;' with the specified log level.
@@ -82,12 +83,12 @@ namespace Microsoft.Extensions.Logging
       [CallerMemberName] string callerName = "",
       [CallerFilePath] string callerFile = "",
       [CallerLineNumber] int callerFileLine = 0)
-      => logger.DoLog(callerName, callerFile, callerFileLine, arguments: Arguments.Create(args), logLevel: logLevel, message: exception.ToString());
+      => logger.DoLog(callerName, callerFile, callerFileLine, Arguments.Create(args), logLevel: logLevel, message: exception.ToString());
 
 
     /// <summary>
     ///   Logs the method name, arguments, file and line number after '&gt;&gt;&gt;' as debug category.
-    ///   Logs the method name, arguments, file after '&lt;&lt;&lt;' as debug category when going out of scope.  
+    ///   Logs the method name, arguments, file after '&lt;&lt;&lt;' as debug category when going out of scope.
     /// </summary>
     /// <param name="logger">filled automatically (extension method)</param>
     /// <param name="args">Add parameters to this object to log them.</param>
@@ -102,9 +103,26 @@ namespace Microsoft.Extensions.Logging
       [CallerMemberName] string callerName = "",
       [CallerFilePath] string callerFile = "",
       [CallerLineNumber] int callerFileLine = 0)
-      => new Scope(
-        () => LogEnter(logger, args, logLevel, callerName, callerFile, callerFileLine),
-        () => LogExit(logger, args, logLevel, callerName, callerFile, callerFileLine: 0));
+    {
+      return new Scope(
+        // ReSharper disable once ExplicitCallerInfoArgument
+        // ReSharper disable once ExplicitCallerInfoArgument
+        () => LogEnter(
+          logger,
+          args,
+          logLevel,
+          callerName,
+          callerFile,
+          // ReSharper disable once ExplicitCallerInfoArgument
+          callerFileLine),
+        // ReSharper disable once ExplicitCallerInfoArgument
+        () => LogExit(
+          logger,
+          args,
+          logLevel,
+          callerName,
+          callerFile));
+    }
 
     private static void DoLog(
       this ILogger logger,
@@ -116,10 +134,11 @@ namespace Microsoft.Extensions.Logging
       string message = "",
       LogLevel logLevel = LogLevel.Debug)
     {
-      if (callerFileLine > 0)
-        logger.Log(logLevel, $"{prefix}{callerName}({arguments.Expand()}) {message} [{callerFile}#{callerFileLine.ToString()}]");
-      else
-        logger.Log(logLevel, $"{prefix}{callerName}({arguments.Expand()}) {message} [{callerFile}]");
+      logger.Log(
+        logLevel,
+        callerFileLine > 0
+          ? $"{prefix}{callerName}({arguments.Expand()}) {message} [{callerFile}#{callerFileLine.ToString()}]"
+          : $"{prefix}{callerName}({arguments.Expand()}) {message} [{callerFile}]");
     }
   }
 }
