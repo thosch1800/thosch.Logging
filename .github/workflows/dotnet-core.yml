@@ -20,7 +20,7 @@ jobs:
         
     - name: make github packages available
       run: |
-        - dotnet nuget sources add -name "github" -source https://nuget.pkg.github.com/[username]/index.json -StorePasswordInClearText -username [username] -password ${{ secrets.GITHUB_TOKEN }} 
+        - nuget sources add -name "github" -source https://nuget.pkg.github.com/[username]/index.json -StorePasswordInClearText -username [username] -password ${{ secrets.GITHUB_TOKEN }} 
         - dotnet nuget list source
         - dotnet restore thosch.Logging/thosch.Logging.sln
       
