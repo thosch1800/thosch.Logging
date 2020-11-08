@@ -19,7 +19,10 @@ jobs:
         dotnet-version: 3.1.301
         
     - name: make github packages available
-      run: nuget sources add -name "github" -source https://nuget.pkg.github.com/[username]/index.json -StorePasswordInClearText -username [username] -password ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget sources add -name "github" -source https://nuget.pkg.github.com/[username]/index.json -StorePasswordInClearText -username [username] -password ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: show configured sources
+      run: dotnet nuget list source
       
     - name: Install dependencies
       run: dotnet restore thosch.Logging/thosch.Logging.sln
